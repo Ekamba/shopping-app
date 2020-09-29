@@ -43,7 +43,7 @@ export default function SearchScreen() {
     setIsLoading(true);
     //q is for query, which should be used in a sql statement on the backend  like SELECT * from PRODUCTS WHERE NAME = 'q' or something like that
     axios
-      .get(`${BACKEND_URL}/api/products/name?q=${search}`)
+      .get(`${BACKEND_URL}/api/products/name?q=${text}`)
 
       .then((res) => {
         const products = res.data.response;
@@ -53,7 +53,7 @@ export default function SearchScreen() {
       .catch((err) => {
         setError(err);
       });
-  }, [search]); //call this hook, everytime the "text" state changes, it will fetch new data, with the new query.
+  }, [text]); //call this hook, everytime the "text" state changes, it will fetch new data, with the new query.
   //This way it will automatically fetch everytime the user types in new data
 
   const dispatch = useDispatch();
