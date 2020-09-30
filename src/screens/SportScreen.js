@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { theme } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
@@ -13,7 +14,6 @@ import { ADD_TO_CART } from "../redux/CartItem";
 import { useDispatch } from "react-redux";
 import ShoppingCartIcon from "../components/ShoppingCartIcon";
 import axios from "axios";
-import * as BACKEND_URL from "../config";
 
 function Separator() {
   return (
@@ -33,6 +33,7 @@ function SportScreen() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:3000/router/category?category=sport`)
       .then((res) => {
@@ -41,7 +42,6 @@ function SportScreen() {
       })
       .catch((err) => {
         setError(err);
-
         console.error(err);
       });
   }, []);
@@ -58,7 +58,12 @@ function SportScreen() {
       </View>
       <View>
         {isLoading ? (
-          <Text>Loading.....</Text>
+          <View>
+            <ActivityIndicator
+              size={theme.text.size.xl}
+              color={theme.color.greenDarkest}
+            />
+          </View>
         ) : error ? (
           <Text style={styles.textError}>Something went wrong.....</Text>
         ) : (

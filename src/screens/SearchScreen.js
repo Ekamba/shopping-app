@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ADD_TO_CART } from "../redux/CartItem";
@@ -51,6 +52,7 @@ export default function SearchScreen() {
         setIsLoading(false);
       })
       .catch((err) => {
+        console.log(err);
         setError(err);
       });
   }, [text]); //call this hook, everytime the "text" state changes, it will fetch new data, with the new query.
@@ -93,7 +95,12 @@ export default function SearchScreen() {
         />
       </View>
       {isLoading ? (
-        <Text>Loading data.....</Text>
+        <View>
+          <ActivityIndicator
+            size={theme.text.size.xl}
+            color={theme.color.greenDarkest}
+          />
+        </View>
       ) : error ? (
         <Text style={styles.textError}>Something went wrong.....</Text>
       ) : (
@@ -179,7 +186,7 @@ const styles = StyleSheet.create({
   },
   row: {
     fontSize: 18,
-    fontWeight: "400",
+    fontWeight: theme.text.weight.normal,
     paddingTop: 5,
     color: "purple",
   },

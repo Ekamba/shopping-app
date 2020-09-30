@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { theme } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
@@ -13,7 +14,6 @@ import { ADD_TO_CART } from "../redux/CartItem";
 import { useDispatch } from "react-redux";
 import ShoppingCartIcon from "../components/ShoppingCartIcon";
 import axios from "axios";
-import * as BACKEND_URL from "../config";
 
 function Separator() {
   return (
@@ -29,15 +29,20 @@ function Separator() {
 function ShoesScreen() {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:3000/router/category?category=shoes`)
       .then((res) => {
         setProducts(res.data.response);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        setError(err);
       });
   }, []);
 
@@ -52,43 +57,54 @@ function ShoesScreen() {
         </View>
       </View>
       <View>
-        <FlatList
-          data={products}
-          keyExtractor={(item) => item.id.toString()}
-          ItemSeparatorComponent={() => Separator()}
-          renderItem={({ item, index }) => (
-            <View style={styles.productItemContainer}>
-              <Image
-                source={require(`../../assets/images/${index + 1}.jpg`)}
-                style={styles.thumbnail}
-              />
+        {isLoading ? (
+          <View>
+            <ActivityIndicator
+              size={theme.text.size.xl}
+              color={theme.color.greenDarkest}
+            />
+          </View>
+        ) : error ? (
+          <Text style={styles.textError}>Something went wrong.....</Text>
+        ) : (
+          <FlatList
+            data={products}
+            keyExtractor={(item) => item.id.toString()}
+            ItemSeparatorComponent={() => Separator()}
+            renderItem={({ item, index }) => (
+              <View style={styles.productItemContainer}>
+                <Image
+                  source={require(`../../assets/images/${index + 1}.jpg`)}
+                  style={styles.thumbnail}
+                />
 
-              <View style={styles.productItemMetaContainer}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("Details", { id: 1 })}
-                >
-                  <Text style={styles.textId} numberOfLines={1}>
-                    {item.id}
-                  </Text>
-                </TouchableOpacity>
-                <Text style={styles.row}>{item.name}</Text>
-
-                <Text style={styles.row}> {item.category}</Text>
-                <Text style={styles.row}> {item.gender}</Text>
-                <Text style={styles.row}> {item.brand}</Text>
-                <Text style={styles.price}>$ {item.price}</Text>
-                <View style={styles.buttonContainer}>
+                <View style={styles.productItemMetaContainer}>
                   <TouchableOpacity
-                    onPress={() => addItemToCart(item)}
-                    style={styles.button}
+                    onPress={() => navigation.navigate("Details", { id: 1 })}
                   >
-                    <Text style={styles.buttonText}>Add to Cart +</Text>
+                    <Text style={styles.textId} numberOfLines={1}>
+                      {item.id}
+                    </Text>
                   </TouchableOpacity>
+                  <Text style={styles.row}>{item.name}</Text>
+
+                  <Text style={styles.row}> {item.category}</Text>
+                  <Text style={styles.row}> {item.gender}</Text>
+                  <Text style={styles.row}> {item.brand}</Text>
+                  <Text style={styles.price}>$ {item.price}</Text>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                      onPress={() => addItemToCart(item)}
+                      style={styles.button}
+                    >
+                      <Text style={styles.buttonText}>Add to Cart +</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          )}
-        />
+            )}
+          />
+        )}
       </View>
     </View>
   );

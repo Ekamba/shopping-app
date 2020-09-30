@@ -15,19 +15,19 @@ function Navbar(props) {
         <View style={styles.topLeftItems}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.push("Women")}
+            onPress={() => navigation.push("Products")}
           >
             <Text style={styles.categories}>Women |</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.push("Men")}
+            onPress={() => navigation.push("Products")}
           >
             <Text style={styles.categories}>Men |</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.push("Kids")}
+            onPress={() => navigation.push("Products")}
           >
             <Text style={styles.categories}>Kids</Text>
           </TouchableOpacity>
@@ -45,16 +45,16 @@ function Navbar(props) {
               name="ios-contact"
               size={32}
               md="md-contact"
-              color="#fff"
+              color={theme.color.white}
             />
             <Text style={styles.topRight}>Log in</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.marginRight}>
             <Ionicons
               name="ios-heart"
-              size={32}
+              size={theme.text.size.xl}
               md="md-heart"
-              color="#b71c1c"
+              color={theme.color.redDarkest}
             />
             <Text style={styles.topRight}>WishList</Text>
           </TouchableOpacity>

@@ -29,6 +29,7 @@ function DetailsScreen(props) {
   const id = props.route.params.id;
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:3000/api/products/${id}`)
       .then((res) => {

@@ -5,11 +5,11 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { theme } from "../../constants/theme";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import * as BACKEND_URL from "../config";
 
 function Separator() {
   return (
@@ -29,6 +29,7 @@ function BrandsScreen() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:3000/router/brand?brand=brand`)
       .then((res) => {
@@ -44,7 +45,12 @@ function BrandsScreen() {
     <View>
       <View style={styles.container}>
         {isLoading ? (
-          <Text>Loading.....</Text>
+          <View>
+            <ActivityIndicator
+              size={theme.text.size.xl}
+              color={theme.color.greenDarkest}
+            />
+          </View>
         ) : error ? (
           <Text style={styles.textError}>Something went wrong.....</Text>
         ) : (

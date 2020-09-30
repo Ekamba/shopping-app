@@ -26,25 +26,62 @@ function Separator() {
   );
 }
 
-function ClothingScreen() {
+function ProductsScreen() {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const women = [];
+  const men = [];
+  const kids = [];
+
+  if (women) {
+    useEffect(() => {
+      setIsLoading(true);
+      axios
+        .get(`http://localhost:3000/router/gender?gender=women`)
+        .then((res) => {
+          console.log(res);
+          setProducts(res.data.response);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setError(err);
+          console.error(err);
+        });
+    }, []);
+  } else if (men) {
     setIsLoading(true);
-    axios
-      .get(`http://localhost:3000/router/category?category=clothing`)
-      .then((res) => {
-        setProducts(res.data.response);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        console.error(err);
-      });
-  }, []);
+    useEffect(() => {
+      axios
+        .get(`http://localhost:3000/router/gender?gender=men`)
+        .then((res) => {
+          console.log(res);
+          setProducts(res.data.response);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setError(err);
+          console.error(err);
+        });
+    }, []);
+  } else if (kids) {
+    setIsLoading(true);
+    useEffect(() => {
+      axios
+        .get(`http://localhost:3000/router/gender?gender=kids`)
+        .then((res) => {
+          console.log(res);
+          setProducts(res.data.response);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setError(err);
+          console.error(err);
+        });
+    }, []);
+  }
 
   const dispatch = useDispatch();
   const addItemToCart = (item) =>
@@ -74,10 +111,9 @@ function ClothingScreen() {
             renderItem={({ item, index }) => (
               <View style={styles.productItemContainer}>
                 <Image
-                  source={require(`../../assets/images/${index + 1}.jpg`)}
+                  source={require(`../../assets/images/${index + 11}.jpg`)}
                   style={styles.thumbnail}
                 />
-
                 <View style={styles.productItemMetaContainer}>
                   <TouchableOpacity
                     onPress={() => navigation.navigate("Details", { id: 1 })}
@@ -87,6 +123,7 @@ function ClothingScreen() {
                     </Text>
                   </TouchableOpacity>
                   <Text style={styles.row}>{item.name}</Text>
+
                   <Text style={styles.row}> {item.category}</Text>
                   <Text style={styles.row}> {item.gender}</Text>
                   <Text style={styles.row}> {item.brand}</Text>
@@ -117,11 +154,7 @@ const styles = StyleSheet.create({
   shoppingCartContainer: {
     backgroundColor: theme.color.goldenShiny,
   },
-
-  shoppingCart: {
-    alignSelf: "flex-end",
-    padding: 10,
-  },
+  shoppingCart: { alignSelf: "flex-end", padding: 10 },
   textError: {
     textAlign: "center",
     color: theme.color.white,
@@ -130,15 +163,18 @@ const styles = StyleSheet.create({
   productItemContainer: {
     flexDirection: "row",
     padding: 10,
-    color: theme.color.goldenShiny,
   },
   thumbnail: {
-    width: 200,
-    height: 170,
+    width: 150,
+    height: 150,
   },
   productItemMetaContainer: {
     paddingLeft: 5,
     paddingBottom: 45,
+  },
+  textId: {
+    color: theme.color.blueDark,
+    fontSize: 18,
   },
   row: {
     fontSize: 18,
@@ -146,13 +182,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     color: "purple",
   },
-  textId: {
-    color: theme.color.blueDark,
-    fontSize: 18,
-  },
   price: {
     fontSize: 18,
-    fontWeight: theme.text.weight.normal,
+    fontWeight: "400",
     paddingTop: 10,
     color: theme.color.goldenShiny,
   },
@@ -167,11 +199,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 22,
-    color: "#fff",
+    color: theme.color.width,
     backgroundColor: "#4158D0",
     backgroundImage:
       "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
   },
 });
 
-export default ClothingScreen;
+export default ProductsScreen;

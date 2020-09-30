@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import * as BACKEND_URL from "../config";
 import { theme } from "../../constants/theme";
@@ -33,6 +34,7 @@ function AccessoriesScreen() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:3000/router/category?category=accessories`)
       .then((res) => {
@@ -58,7 +60,12 @@ function AccessoriesScreen() {
       </View>
       <View>
         {isLoading ? (
-          <Text>Loading.....</Text>
+          <View>
+            <ActivityIndicator
+              size={theme.text.size.xl}
+              color={theme.color.greenDarkest}
+            />
+          </View>
         ) : error ? (
           <Text style={styles.textError}>Something went wrong.....</Text>
         ) : (

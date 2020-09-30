@@ -54,10 +54,11 @@ function CartScreen() {
                     {item.id}
                   </Text>
                 </TouchableOpacity>
+                <Text style={styles.row}> {item.name}</Text>
                 <Text style={styles.row}> {item.category}</Text>
                 <Text style={styles.row}> {item.gender}</Text>
                 <Text style={styles.row}> {item.brand}</Text>
-                <Text style={styles.price}>$ {item.price}</Text>
+                <Text style={styles.textPrice}>$ {item.price}</Text>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     onPress={() => removeItemFromCart(item)}
@@ -72,7 +73,7 @@ function CartScreen() {
         />
       ) : (
         <View style={styles.emptyCartContainer}>
-          <Text style={styles.emptyCartMessage}>Your cart is empty :'(</Text>
+          <Text style={styles.emptyCartMessage}>Your cart is empty :(</Text>
         </View>
       )}
     </View>
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
   },
   productItemMetaContainer: {
     padding: 5,
-    paddingLeft: 10,
+    paddingBottom: 40,
   },
 
   row: {
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: "absolute",
-    marginTop: 120,
+    marginTop: 130,
     left: 10,
   },
   button: {

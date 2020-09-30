@@ -19,7 +19,11 @@ function ShoppingCartIcon() {
           <Text style={styles.itemCountText}>{cartItems.length}</Text>
         </View>
 
-        <Ionicons name="ios-cart" size={32} color="#fff" />
+        <Ionicons
+          name="ios-cart"
+          size={theme.text.size.xl}
+          color={theme.color.white}
+        />
         <Text style={styles.topRight}>Cart</Text>
       </TouchableOpacity>
     </View>
@@ -51,7 +55,6 @@ const styles = StyleSheet.create({
   },
   topRight: {
     color: theme.color.white,
-    fontFamily: "Roboto",
   },
 });
 

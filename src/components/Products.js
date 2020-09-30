@@ -25,19 +25,19 @@ const Products = (props) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Women")}
+            onPress={() => navigation.navigate("Products")}
           >
             <Text style={styles.btnText}>Women</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Men")}
+            onPress={() => navigation.navigate("Products")}
           >
             <Text style={styles.btnText}>Men</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Kids")}
+            onPress={() => navigation.navigate("Products")}
           >
             <Text style={styles.btnText}>Kids</Text>
           </TouchableOpacity>
